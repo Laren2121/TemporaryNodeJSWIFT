@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div class='well'>
+        <h1>
+            Online users
+        </h1>
+        <ul class="list-group" id="users"></ul>
+    </div>
+
+    <div class="chat" id="chat">
+        <form id="messageForm">
+            <label>Enter message</label>
+            <textarea class="form-control" id="message"></textarea><br><br>
+            <input type="submit" class="btn btn-primary" value="send message"/> 
+        </form>
+    </div>
+    <script>
+        $(function(){
+            var socket = io.connect();
+            var $messageForm = $('#messageForm')
+            var $message = $('#message')
+            var $chat = $('#chat')
+
+            //we have to create an event when message form is submitted
+            $messageForm.submit(function(e){
+                e.preventDefault();
+                socket.emit('send message',$message.val())
+                $message.val('')
+            })
+            socket.on('new message',function(data){
+                $chat.append('<div class="well">'+data.msg+'</div>')
+            })
+        })
+    </script>
+</body>
+</html> 
