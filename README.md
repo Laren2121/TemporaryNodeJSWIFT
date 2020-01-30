@@ -1,3 +1,3 @@
 # TemporaryNodeJSWIFT
-This is just for practice github
+This is just for practicing github
 ---
